@@ -1,0 +1,183 @@
+object LoginView: TLoginView
+  Left = 0
+  Top = 0
+  Caption = 'Login'
+  ClientHeight = 434
+  ClientWidth = 519
+  Color = clBtnFace
+  Constraints.MinHeight = 473
+  Constraints.MinWidth = 535
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 519
+    Height = 434
+    Align = alClient
+    BevelOuter = bvNone
+    TabOrder = 0
+    ExplicitTop = -172
+    ExplicitWidth = 518
+    ExplicitHeight = 461
+    object Panel2: TPanel
+      Left = 0
+      Top = 0
+      Width = 519
+      Height = 81
+      Align = alTop
+      BevelOuter = bvNone
+      Color = 4803146
+      ParentBackground = False
+      TabOrder = 0
+      object Label1: TLabel
+        Left = 0
+        Top = 0
+        Width = 519
+        Height = 81
+        Align = alClient
+        Alignment = taCenter
+        Caption = 'VENDAS'
+        Color = 4803146
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWhite
+        Font.Height = -53
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+        Layout = tlCenter
+        ExplicitLeft = 309
+        ExplicitWidth = 195
+        ExplicitHeight = 64
+      end
+    end
+    object Panel5: TPanel
+      Left = 0
+      Top = 81
+      Width = 519
+      Height = 353
+      Align = alClient
+      BevelOuter = bvNone
+      TabOrder = 1
+      ExplicitTop = 105
+      ExplicitWidth = 518
+      ExplicitHeight = 356
+      object Panel6: TPanel
+        AlignWithMargins = True
+        Left = 50
+        Top = 50
+        Width = 419
+        Height = 253
+        Margins.Left = 50
+        Margins.Top = 50
+        Margins.Right = 50
+        Margins.Bottom = 50
+        Align = alClient
+        BevelOuter = bvNone
+        Color = clWhite
+        ParentBackground = False
+        TabOrder = 0
+        ExplicitWidth = 418
+        ExplicitHeight = 256
+        object Label2: TLabel
+          Left = 32
+          Top = 29
+          Width = 44
+          Height = 13
+          Caption = 'Servidor:'
+        end
+        object Label3: TLabel
+          Left = 32
+          Top = 77
+          Width = 40
+          Height = 13
+          Caption = 'Usu'#225'rio:'
+        end
+        object Label4: TLabel
+          Left = 216
+          Top = 77
+          Width = 34
+          Height = 13
+          Caption = 'Senha:'
+        end
+        object Label5: TLabel
+          Left = 32
+          Top = 125
+          Width = 50
+          Height = 13
+          Caption = 'Database:'
+        end
+        object Label6: TLabel
+          Left = 296
+          Top = 29
+          Width = 30
+          Height = 13
+          Caption = 'Porta:'
+        end
+        object edtServidor: TEdit
+          Left = 32
+          Top = 48
+          Width = 249
+          Height = 21
+          TabOrder = 0
+          Text = 'localhost'
+        end
+        object edtUsuario: TEdit
+          Left = 32
+          Top = 96
+          Width = 169
+          Height = 21
+          TabOrder = 1
+          Text = 'root'
+        end
+        object edtSenha: TEdit
+          Left = 216
+          Top = 96
+          Width = 169
+          Height = 21
+          PasswordChar = '*'
+          TabOrder = 2
+          Text = 'root'
+        end
+        object edtDatabase: TEdit
+          Left = 32
+          Top = 144
+          Width = 353
+          Height = 21
+          TabOrder = 3
+          Text = 'vendas'
+        end
+        object btnConectar: TButton
+          Left = 136
+          Top = 184
+          Width = 145
+          Height = 41
+          Caption = 'Conectar'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 4
+        end
+        object edtPorta: TEdit
+          Left = 296
+          Top = 48
+          Width = 89
+          Height = 21
+          TabOrder = 5
+          Text = '3306'
+        end
+      end
+    end
+  end
+end

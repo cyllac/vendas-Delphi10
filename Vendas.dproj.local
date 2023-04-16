@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2023/04/11 21:10:04.000.532,=C:\Users\Priscila\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/04/14 12:16:01.000.453,=C:\Users\Priscila\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/04/14 12:16:30.000.544,C:\Users\Priscila\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\PROJECTS\WK\UFrmLogin.pas</Transaction>
+    <Transaction>2023/04/14 12:16:30.000.544,C:\Users\Priscila\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\PROJECTS\WK\UFrmLogin.dfm</Transaction>
+    <Transaction>2023/04/14 12:16:35.000.494,C:\Users\Priscila\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\PROJECTS\WK\Vendas.dproj</Transaction>
+    <Transaction>2023/04/14 12:17:08.000.154,=C:\PROJECTS\WK\Unit2.pas</Transaction>
+    <Transaction>2023/04/14 12:17:27.000.201,C:\PROJECTS\WK\Unit2.pas=C:\PROJECTS\WK\PedidoVendas.pas</Transaction>
+    <Transaction>2023/04/14 12:17:27.000.201,C:\PROJECTS\WK\Unit2.dfm=C:\PROJECTS\WK\PedidoVendas.dfm</Transaction>
+    <Transaction>2023/04/14 12:18:07.000.953,C:\PROJECTS\WK\PedidoVendas.dfm=C:\PROJECTS\WK\UFrmPedidoVendas.dfm</Transaction>
+    <Transaction>2023/04/14 12:18:07.000.953,C:\PROJECTS\WK\PedidoVendas.pas=C:\PROJECTS\WK\UFrmPedidoVendas.pas</Transaction>
+    <Transaction>2023/04/14 12:22:26.000.825,C:\PROJECTS\WK\UFrmLogin.dfm=C:\PROJECTS\WK\ULoginView.dfm</Transaction>
+    <Transaction>2023/04/14 12:22:26.000.825,C:\PROJECTS\WK\UFrmLogin.pas=C:\PROJECTS\WK\ULoginView.pas</Transaction>
+    <Transaction>2023/04/14 12:22:36.000.497,C:\PROJECTS\WK\UFrmPedidoVendas.pas=C:\PROJECTS\WK\UPedidoVendasView.pas</Transaction>
+    <Transaction>2023/04/14 12:22:36.000.497,C:\PROJECTS\WK\UFrmPedidoVendas.dfm=C:\PROJECTS\WK\UPedidoVendasView.dfm</Transaction>
+    <Transaction>2023/04/14 12:23:04.000.058,=C:\PROJECTS\WK\Unit1.pas</Transaction>
+    <Transaction>2023/04/14 12:24:09.000.884,C:\PROJECTS\WK\Unit1.pas=C:\PROJECTS\WK\PedidoVendasModel.pas</Transaction>
+    <Transaction>2023/04/14 12:24:09.000.884,C:\PROJECTS\WK\Unit1.dfm=C:\PROJECTS\WK\PedidoVendasModel.dfm</Transaction>
+    <Transaction>2023/04/14 12:44:36.000.157,=C:\PROJECTS\WK\Unit1.pas</Transaction>
+    <Transaction>2023/04/15 11:47:22.000.549,=C:\PROJECTS\WK\Unit1.pas</Transaction>
+    <Transaction>2023/04/15 11:54:27.000.899,C:\PROJECTS\WK\Vendas.Helpers.pas=C:\PROJECTS\WK\Unit1.pas</Transaction>
+    <Transaction>2023/04/15 13:13:19.000.502,=C:\PROJECTS\WK\SQL_CRIACAO_DATABASE.sql</Transaction>
+    <Transaction>2023/04/15 16:25:59.000.492,=C:\PROJECTS\WK\Unit2.pas</Transaction>
+    <Transaction>2023/04/15 16:29:14.000.476,C:\PROJECTS\WK\Unit2.pas=C:\PROJECTS\WK\Vendas.Model.Conexao.Factory.pas</Transaction>
+    <Transaction>2023/04/15 16:29:33.000.944,=C:\PROJECTS\WK\Unit1.pas</Transaction>
+    <Transaction>2023/04/15 16:30:04.000.094,C:\PROJECTS\WK\Vendas.Model.Conexao.Interfaces.pas=C:\PROJECTS\WK\Model\Vendas.Model.Conexao.Interfaces.pas</Transaction>
+    <Transaction>2023/04/15 16:30:38.000.747,C:\PROJECTS\WK\Vendas.Model.Conexao.Factory.pas=C:\PROJECTS\WK\Model\Vendas.Model.Conexao.Factory.pas</Transaction>
+    <Transaction>2023/04/15 16:31:00.000.815,C:\PROJECTS\WK\Unit1.pas=C:\PROJECTS\WK\Model\Vendas.Model.Conexao.Firedac.pas</Transaction>
+    <Transaction>2023/04/15 16:31:31.000.678,C:\PROJECTS\WK\ULoginView.pas=C:\PROJECTS\WK\View\ULoginView.pas</Transaction>
+    <Transaction>2023/04/15 16:31:31.000.678,C:\PROJECTS\WK\ULoginView.dfm=C:\PROJECTS\WK\View\ULoginView.dfm</Transaction>
+    <Transaction>2023/04/15 16:31:43.000.322,C:\PROJECTS\WK\UPedidoVendasView.pas=C:\PROJECTS\WK\View\UPedidoVendasView.pas</Transaction>
+    <Transaction>2023/04/15 16:31:43.000.322,C:\PROJECTS\WK\UPedidoVendasView.dfm=C:\PROJECTS\WK\View\UPedidoVendasView.dfm</Transaction>
+    <Transaction>2023/04/15 16:32:06.000.219,C:\PROJECTS\WK\PedidoVendasModel.pas=C:\PROJECTS\WK\Model\Pedido\PedidoVendasModel.pas</Transaction>
+    <Transaction>2023/04/15 16:32:06.000.219,C:\PROJECTS\WK\PedidoVendasModel.dfm=C:\PROJECTS\WK\Model\Pedido\PedidoVendasModel.dfm</Transaction>
+    <Transaction>2023/04/15 16:32:16.000.376,C:\PROJECTS\WK\Model\Vendas.Model.Conexao.Interfaces.pas=C:\PROJECTS\WK\Model\Conexao\Vendas.Model.Conexao.Interfaces.pas</Transaction>
+    <Transaction>2023/04/15 16:32:23.000.041,C:\PROJECTS\WK\Model\Vendas.Model.Conexao.Factory.pas=C:\PROJECTS\WK\Model\Conexao\Vendas.Model.Conexao.Factory.pas</Transaction>
+    <Transaction>2023/04/15 16:32:29.000.289,C:\PROJECTS\WK\Model\Vendas.Model.Conexao.Firedac.pas=C:\PROJECTS\WK\Model\Conexao\Vendas.Model.Conexao.Firedac.pas</Transaction>
+    <Transaction>2023/04/15 16:44:06.000.124,C:\PROJECTS\WK\Model\Conexao\Vendas.Model.Conexao.Firedac.pas=</Transaction>
+    <Transaction>2023/04/15 16:44:37.000.740,=C:\PROJECTS\WK\Unit1.pas</Transaction>
+    <Transaction>2023/04/15 16:44:54.000.704,C:\PROJECTS\WK\Unit1.dfm=C:\PROJECTS\WK\Model\Conexao\Vendas.Model.Conexao.Firedac.dfm</Transaction>
+    <Transaction>2023/04/15 16:44:54.000.704,C:\PROJECTS\WK\Unit1.pas=C:\PROJECTS\WK\Model\Conexao\Vendas.Model.Conexao.Firedac.pas</Transaction>
+    <Transaction>2023/04/15 19:50:42.101,=C:\PROJECTS\WK\Unit1.pas</Transaction>
+    <Transaction>2023/04/15 19:52:03.236,C:\PROJECTS\WK\Model\PedidoItem\PedidoVendasItemModel.pas=C:\PROJECTS\WK\Unit1.pas</Transaction>
+    <Transaction>2023/04/15 19:52:03.236,C:\PROJECTS\WK\Model\PedidoItem\PedidoVendasItemModel.dfm=C:\PROJECTS\WK\Unit1.dfm</Transaction>
+  </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="Model"/>
+    <File Path="Model\Conexao"/>
+    <File Path="Model\Conexao\Vendas.Model.Conexao.Interfaces.pas"/>
+    <File Path="Model\Conexao\Vendas.Model.Conexao.Factory.pas"/>
+    <File Path="Model\Conexao\Vendas.Model.Conexao.Firedac.pas"/>
+    <File Path="Model\Conexao\Vendas.Model.Conexao.Firedac.dfm"/>
+    <File Path="Model\Pedido"/>
+    <File Path="Model\Pedido\PedidoVendasModel.pas"/>
+    <File Path="Model\Pedido\PedidoVendasModel.dfm"/>
+    <File Path="Model\PedidoItem"/>
+    <File Path="Model\PedidoItem\PedidoVendasItemModel.pas"/>
+    <File Path="Model\PedidoItem\PedidoVendasItemModel.dfm"/>
+    <File Path="View"/>
+    <File Path="View\ULoginView.pas"/>
+    <File Path="View\ULoginView.dfm"/>
+    <File Path="View\UPedidoVendasView.pas"/>
+    <File Path="View\UPedidoVendasView.dfm"/>
+    <File Path="Vendas.Helpers.pas"/>
+    <File Path="SQL_CRIACAO_DATABASE.sql"/>
+  </ProjectSortOrder>
+</BorlandProject>
