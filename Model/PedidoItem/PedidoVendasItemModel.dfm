@@ -12,7 +12,6 @@ object PedidoVendasItem: TPedidoVendasItem
     SchemaAdapter = ModelConexaoFiredac.FDSchemaAdapter
     FetchOptions.AssignedValues = [evDetailCascade]
     FetchOptions.DetailCascade = True
-    UpdateOptions.UpdateTableName = 'vendas.pedidos_itens'
     UpdateOptions.KeyFields = 'CODIGO_PEDIDO_ITEM'
     SQL.Strings = (
       'select'

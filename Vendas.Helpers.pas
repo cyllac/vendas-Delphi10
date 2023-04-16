@@ -26,7 +26,7 @@ end;
 
 function TVariantHelper.toInteger: Integer;
 begin
-  Result := StrToInt(VarToStr(Self));
+  Result := StrToIntDef(VarToStrDef(Self, EmptyStr), 0);
 end;
 
 end.

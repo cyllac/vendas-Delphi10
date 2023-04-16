@@ -7,7 +7,6 @@ object PedidoVendas: TPedidoVendas
     Connection = ModelConexaoFiredac.FDConnection
     SchemaAdapter = ModelConexaoFiredac.FDSchemaAdapter
     UpdateOptions.AssignedValues = [uvGeneratorName]
-    UpdateOptions.UpdateTableName = 'vendas.pedidos'
     UpdateOptions.KeyFields = 'numero_pedido'
     SQL.Strings = (
       'select'
@@ -60,6 +59,7 @@ object PedidoVendas: TPedidoVendas
       Size = 2
     end
     object fdqPedidoCODIGO_CLIENTE: TIntegerField
+      DisplayLabel = 'Cliente'
       FieldName = 'CODIGO_CLIENTE'
       Origin = 'codigo_cliente'
       OnChange = fdqPedidoCODIGO_CLIENTEChange

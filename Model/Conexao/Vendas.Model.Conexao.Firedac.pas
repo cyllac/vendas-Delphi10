@@ -12,8 +12,8 @@ type
   TModelConexaoFiredac = class(TDataModule, iModelConexao, iModelConexaoParametros, iModelConexaoSchemaAdapter)
     FDConnection: TFDConnection;
     FDGUIxWaitCursor1: TFDGUIxWaitCursor;
-    FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink;
     FDSchemaAdapter: TFDSchemaAdapter;
+    FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink;
     procedure FDSchemaAdapterReconcileRow(ASender: TObject; ARow: TFDDatSRow; var Action: TFDDAptReconcileAction);
     procedure FDSchemaAdapterUpdateRow(ASender: TObject; ARow: TFDDatSRow; ARequest: TFDUpdateRequest;
       AUpdRowOptions: TFDUpdateRowOptions; var AAction: TFDErrorAction);
@@ -25,7 +25,6 @@ type
     FServer: String;
     FPorta: Integer;
     procedure LerParametros;
-    procedure CreateDirectoryResource;
     function ExtractResourceSQL: String;
     procedure ExecutarSQL(const ASQL: String);
   public
@@ -108,8 +107,7 @@ begin
   Result := Self;
   LerParametros;
   try
-    CreateDirectoryResource;
-    ExecutarSQL('CREATE DATABASE IF NOT EXISTS vendas');
+    ExecutarSQL('CREATE DATABASE IF NOT EXISTS ' + FDatabase);
 
     FDConnection.Params.Database := FDatabase;
     FDConnection.Open;
@@ -134,15 +132,6 @@ constructor TModelConexaoFiredac.Create(AOwner: TComponent);
 begin
   inherited;
 
-end;
-
-procedure TModelConexaoFiredac.CreateDirectoryResource;
-var
-  Patch: String;
-begin
-  Patch := ExtractFilePath(ParamStr(0));
-  if not DirectoryExists(Patch + 'SQL') then
-    CreateDir(Patch + 'SQL');
 end;
 
 function TModelConexaoFiredac.Database(const AValue: String): iModelConexaoParametros;

@@ -65,10 +65,19 @@ begin
   fdqPedido.Close;
   fdqPedido.ParamByName('NUMERO_PEDIDO_PRM').Value := NumeroPedido;
   fdqPedido.Open;
-  fdqPedido.Edit;
 
-  PedidoVendasItem.fdqPedidoItem.Close;
-  PedidoVendasItem.fdqPedidoItem.Open;
+  if (not fdqPedidonumero_pedido.IsNull) then
+  begin
+    fdqPedido.Edit;
+
+    PedidoVendasItem.fdqPedidoItem.Close;
+    PedidoVendasItem.fdqPedidoItem.Open;
+  end
+  else
+  begin
+    ShowMessage('Esse número de pedido não existe. Verifique.');
+    InserirPedido;
+  end;
 end;
 
 constructor TPedidoVendas.Create(AOwner: TComponent);
@@ -87,21 +96,29 @@ begin
   fdqPedido.Close;
   fdqPedido.ParamByName('NUMERO_PEDIDO_PRM').Value := NumeroPedido;
   fdqPedido.Open;
-  fdqPedido.Delete;
 
-  ModelConexao.StartTransaction;
-  try
-    if (ModelConexao.SchemaAdapter.ApplyUpdates(0) = 0) then
-      TFDConnection(ModelConexao.EndConexao).Commit
-    else
-      TFDConnection(ModelConexao.EndConexao).Rollback;
-  except
-    on e: Exception do
-    begin
-      TFDConnection(ModelConexao.EndConexao).Rollback;
-      raise Exception.Create(e.Message);
+  if (not fdqPedidonumero_pedido.IsNull) then
+  begin
+    fdqPedido.Delete;
+
+    ModelConexao.StartTransaction;
+    try
+      if (ModelConexao.SchemaAdapter.ApplyUpdates(0) = 0) then
+        TFDConnection(ModelConexao.EndConexao).Commit
+      else
+        TFDConnection(ModelConexao.EndConexao).Rollback;
+    except
+      on e: Exception do
+      begin
+        TFDConnection(ModelConexao.EndConexao).Rollback;
+        raise Exception.Create(e.Message);
+      end;
     end;
-  end;
+  end
+  else
+    ShowMessage('Esse número de pedido não existe. Verifique.');
+
+  InserirPedido;
 end;
 
 procedure TPedidoVendas.fdqPedidoCODIGO_CLIENTEChange(Sender: TField);

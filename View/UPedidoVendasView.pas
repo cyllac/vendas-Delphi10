@@ -50,6 +50,8 @@ type
     edtValorTotal: TDBEdit;
     btnExcluir: TButton;
     actExcluir: TAction;
+    btnControleButtons: TButton;
+    actControleBotoes: TAction;
     procedure btnFecharClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
@@ -57,13 +59,13 @@ type
     procedure edtCodigoClienteKeyPress(Sender: TObject; var Key: Char);
     procedure btnAdicionarItemClick(Sender: TObject);
     procedure grdItensKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure actPesquisarUpdate(Sender: TObject);
     procedure actPesquisarExecute(Sender: TObject);
-    procedure actExcluirUpdate(Sender: TObject);
     procedure actExcluirExecute(Sender: TObject);
+    procedure actControleBotoesUpdate(Sender: TObject);
   private
     procedure SetKeyPressEnter(var Key: Char);
-    procedure ReposicionarBotaoExcluir;
+    procedure ReposicionarBotoes;
+    function AtivarBotoesExcluirPesquisar: Boolean;
   public
     { Public declarations }
   end;
@@ -81,9 +83,16 @@ uses
 procedure TPedidoVendasView.btnGravarClick(Sender: TObject);
 begin
   PedidoVendas.GravarPedido;
-  actPesquisar.Update;
-  actExcluir.Update;
-  ReposicionarBotaoExcluir;
+  ReposicionarBotoes;
+end;
+
+procedure TPedidoVendasView.actControleBotoesUpdate(Sender: TObject);
+begin
+  btnPesquisar.Visible := AtivarBotoesExcluirPesquisar;
+  btnExcluir.Visible := btnPesquisar.Visible;
+
+  if btnExcluir.Visible then
+    ReposicionarBotoes;
 end;
 
 procedure TPedidoVendasView.actExcluirExecute(Sender: TObject);
@@ -96,11 +105,6 @@ begin
     PedidoVendas.ExcluirPedidoVendas(NumeroPedido);
 end;
 
-procedure TPedidoVendasView.actExcluirUpdate(Sender: TObject);
-begin
-  TAction(Sender).Visible := PedidoVendas.fdqPedidoCODIGO_CLIENTE.IsNull;
-end;
-
 procedure TPedidoVendasView.actPesquisarExecute(Sender: TObject);
 var
   NumeroPedido: String;
@@ -111,9 +115,10 @@ begin
     PedidoVendas.CarregarPedidoVendas(NumeroPedido);
 end;
 
-procedure TPedidoVendasView.actPesquisarUpdate(Sender: TObject);
+function TPedidoVendasView.AtivarBotoesExcluirPesquisar: Boolean;
 begin
-  TAction(Sender).Visible := PedidoVendas.fdqPedidoCODIGO_CLIENTE.IsNull;
+  Result := PedidoVendas.fdqPedidoCODIGO_CLIENTE.IsNull and
+    (PedidoVendas.fdqPedidoCODIGO_CLIENTE.AsInteger = 0);
 end;
 
 procedure TPedidoVendasView.btnAdicionarItemClick(Sender: TObject);
@@ -163,10 +168,16 @@ begin
   end;
 end;
 
-procedure TPedidoVendasView.ReposicionarBotaoExcluir;
+procedure TPedidoVendasView.ReposicionarBotoes;
 begin
-  if PedidoVendas.fdqPedidoCODIGO_CLIENTE.IsNull then
-    btnExcluir.Left := 151;
+  if AtivarBotoesExcluirPesquisar and (btnExcluir.Left <> 150) then
+  begin
+    btnPesquisar.Left := 8;
+    btnGravar.Left := 79;
+    btnExcluir.Left := 150;
+    btnCancelar.Left := 221;
+    btnFechar.Left := 292;
+  end;
 end;
 
 procedure TPedidoVendasView.SetKeyPressEnter;
@@ -181,9 +192,7 @@ end;
 procedure TPedidoVendasView.btnCancelarClick(Sender: TObject);
 begin
   PedidoVendas.CancelarPedido;
-  actPesquisar.Update;
-  actExcluir.Update;
-  ReposicionarBotaoExcluir;
+  ReposicionarBotoes;
 end;
 
 procedure TPedidoVendasView.btnFecharClick(Sender: TObject);

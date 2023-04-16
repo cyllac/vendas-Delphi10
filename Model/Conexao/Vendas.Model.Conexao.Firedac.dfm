@@ -4,11 +4,7 @@ object ModelConexaoFiredac: TModelConexaoFiredac
   Width = 234
   object FDConnection: TFDConnection
     Params.Strings = (
-      'DriverID=MySQL'
-      'Database=vendas'
-      'Password=root'
-      'Server=localhost'
-      'User_Name=root')
+      'DriverID=MySQL')
     LoginPrompt = False
     Left = 80
     Top = 24
@@ -18,10 +14,6 @@ object ModelConexaoFiredac: TModelConexaoFiredac
     Left = 80
     Top = 72
   end
-  object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
-    Left = 80
-    Top = 120
-  end
   object FDSchemaAdapter: TFDSchemaAdapter
     UpdateOptions.AssignedValues = [uvUpdateMode, uvAutoCommitUpdates]
     UpdateOptions.AutoCommitUpdates = True
@@ -29,5 +21,9 @@ object ModelConexaoFiredac: TModelConexaoFiredac
     OnUpdateRow = FDSchemaAdapterUpdateRow
     Left = 80
     Top = 168
+  end
+  object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
+    Left = 80
+    Top = 120
   end
 end
