@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vendas.Controller.Conexao.Interfaces;
 
 type
   TLoginView = class(TForm)
@@ -27,8 +28,12 @@ type
     procedure btnConectarClick(Sender: TObject);
     procedure edtServidorKeyPress(Sender: TObject; var Key: Char);
     procedure FormShow(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
+    FControllerConexao: iControllerConexao;
     procedure SetKeyPressEnter(var Key: Char);
+  protected
+    procedure CreateParams(var Params: TCreateParams); override;
   public
     { Public declarations }
   end;
@@ -41,7 +46,8 @@ implementation
 {$R *.dfm}
 
 uses
-  PedidoVendasModel, UPedidoVendasView, Vendas.Model.Conexao.Factory, Vendas.Helpers;
+  PedidoVendasModel, UPedidoVendasView, Vendas.Model.Conexao.Factory, Vendas.Helpers,
+  Vendas.Model.Conexao.Firedac, Vendas.Controller.Conexao.Factory;
 
 procedure TLoginView.btnConectarClick(Sender: TObject);
 
@@ -51,7 +57,6 @@ procedure TLoginView.btnConectarClick(Sender: TObject);
     begin
       if ACampo.CanFocus then
         ACampo.SetFocus;
-
 
       raise Exception.Create('É necessário informar o campo ' + StringReplace(ALabel.Caption, ':', EmptyStr, []));
     end;
@@ -64,24 +69,35 @@ begin
   ValidarCampo(edtSenha, lblSenha);
   ValidarCampo(edtDatabase, lblDatabase);
 
-  PedidoVendas
-    .ModelConexao
-      .Parametros
-        .DriverID('MySQL')
-        .Server(edtServidor.Text)
-        .Porta(edtPorta.Text.toInteger)
-        .UserName(edtUsuario.Text)
-        .Password(edtSenha.Text)
-        .Database(edtDatabase.Text)
-      .EndParametros
-      .Conectar;
+  FControllerConexao
+        .Model
+          .Parametros
+            .DriverID('MySQL')
+            .Server(edtServidor.Text)
+            .Porta(edtPorta.Text.toInteger)
+            .UserName(edtUsuario.Text)
+            .Password(edtSenha.Text)
+            .Database(edtDatabase.Text)
+          .EndParametros
+          .Conectar;
 
   ModalResult := mrOk;
+end;
+
+procedure TLoginView.CreateParams(var Params: TCreateParams);
+begin
+  inherited;
+  Params.ExStyle := Params.ExStyle OR WS_EX_APPWINDOW;
 end;
 
 procedure TLoginView.edtServidorKeyPress(Sender: TObject; var Key: Char);
 begin
   SetKeyPressEnter(Key);
+end;
+
+procedure TLoginView.FormCreate(Sender: TObject);
+begin
+  FControllerConexao := TControllerConexaoFactory.New.Conexao;
 end;
 
 procedure TLoginView.FormShow(Sender: TObject);

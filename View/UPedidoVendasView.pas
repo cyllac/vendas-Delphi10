@@ -12,7 +12,6 @@ type
     Panel1: TPanel;
     Panel2: TPanel;
     Panel7: TPanel;
-    Button2: TButton;
     btnPesquisar: TButton;
     btnGravar: TButton;
     btnCancelar: TButton;
@@ -49,6 +48,8 @@ type
     edtQuantidade: TDBEdit;
     edtValorUnitario: TDBEdit;
     edtValorTotal: TDBEdit;
+    btnExcluir: TButton;
+    actExcluir: TAction;
     procedure btnFecharClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
@@ -58,8 +59,11 @@ type
     procedure grdItensKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure actPesquisarUpdate(Sender: TObject);
     procedure actPesquisarExecute(Sender: TObject);
+    procedure actExcluirUpdate(Sender: TObject);
+    procedure actExcluirExecute(Sender: TObject);
   private
     procedure SetKeyPressEnter(var Key: Char);
+    procedure ReposicionarBotaoExcluir;
   public
     { Public declarations }
   end;
@@ -78,6 +82,23 @@ procedure TPedidoVendasView.btnGravarClick(Sender: TObject);
 begin
   PedidoVendas.GravarPedido;
   actPesquisar.Update;
+  actExcluir.Update;
+  ReposicionarBotaoExcluir;
+end;
+
+procedure TPedidoVendasView.actExcluirExecute(Sender: TObject);
+var
+  NumeroPedido: String;
+begin
+  InputQuery('Exclusão de Pedidos de Vendas', 'Informe o número do pedido: ', NumeroPedido);
+
+  if (not NumeroPedido.IsEmpty) then
+    PedidoVendas.ExcluirPedidoVendas(NumeroPedido);
+end;
+
+procedure TPedidoVendasView.actExcluirUpdate(Sender: TObject);
+begin
+  TAction(Sender).Visible := PedidoVendas.fdqPedidoCODIGO_CLIENTE.IsNull;
 end;
 
 procedure TPedidoVendasView.actPesquisarExecute(Sender: TObject);
@@ -142,6 +163,12 @@ begin
   end;
 end;
 
+procedure TPedidoVendasView.ReposicionarBotaoExcluir;
+begin
+  if PedidoVendas.fdqPedidoCODIGO_CLIENTE.IsNull then
+    btnExcluir.Left := 151;
+end;
+
 procedure TPedidoVendasView.SetKeyPressEnter;
 begin
   if (Key = #13) then
@@ -155,6 +182,8 @@ procedure TPedidoVendasView.btnCancelarClick(Sender: TObject);
 begin
   PedidoVendas.CancelarPedido;
   actPesquisar.Update;
+  actExcluir.Update;
+  ReposicionarBotaoExcluir;
 end;
 
 procedure TPedidoVendasView.btnFecharClick(Sender: TObject);

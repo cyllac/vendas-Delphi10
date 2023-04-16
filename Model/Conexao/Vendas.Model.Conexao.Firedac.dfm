@@ -7,6 +7,7 @@ object ModelConexaoFiredac: TModelConexaoFiredac
       'DriverID=MySQL'
       'Database=vendas'
       'Password=root'
+      'Server=localhost'
       'User_Name=root')
     LoginPrompt = False
     Left = 80

@@ -5,8 +5,8 @@ interface
 uses
   System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
   FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.MySQL, FireDAC.Phys.MySQLDef,
-  FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client, FireDAC.Comp.UI,
-  Vendas.Model.Conexao.Interfaces, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt;
+  FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client, FireDAC.Comp.UI, Vendas.Model.Conexao.Interfaces, FireDAC.DatS,
+  FireDAC.DApt.Intf, FireDAC.DApt;
 
 type
   TModelConexaoFiredac = class(TDataModule, iModelConexao, iModelConexaoParametros, iModelConexaoSchemaAdapter)
@@ -26,11 +26,13 @@ type
     FPorta: Integer;
     procedure LerParametros;
     procedure CreateDirectoryResource;
-    procedure ExecutarSQL(const ASQL: String);
     function ExtractResourceSQL: String;
+    procedure ExecutarSQL(const ASQL: String);
   public
+    constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     class function New: iModelConexao;
+
     function Conectar: iModelConexao;
     function EndConexao: TCustomConnection;
     function Parametros: iModelConexaoParametros;
@@ -50,8 +52,6 @@ type
     function ApplyUpdates(const AMaxErrors: Integer=-1): Integer;
     procedure CancelUpdates;
     function EndSchemaAdapter: iModelConexao;
-
-    constructor Create(AOwner: TComponent); override;
   end;
 
 var
@@ -175,7 +175,7 @@ end;
 
 function TModelConexaoFiredac.EndSchemaAdapter: iModelConexao;
 begin
-
+  Result := Self;
 end;
 
 procedure TModelConexaoFiredac.ExecutarSQL(const ASQL: String);
@@ -219,6 +219,7 @@ end;
 
 procedure TModelConexaoFiredac.LerParametros;
 begin
+  FDConnection.Params.Clear;
   FDConnection.Params.DriverID := FDriverID;
   FDConnection.Params.UserName := FUserName;
   FDConnection.Params.Password := FPassword;

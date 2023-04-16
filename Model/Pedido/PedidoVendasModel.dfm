@@ -7,6 +7,8 @@ object PedidoVendas: TPedidoVendas
     Connection = ModelConexaoFiredac.FDConnection
     SchemaAdapter = ModelConexaoFiredac.FDSchemaAdapter
     UpdateOptions.AssignedValues = [uvGeneratorName]
+    UpdateOptions.UpdateTableName = 'vendas.pedidos'
+    UpdateOptions.KeyFields = 'numero_pedido'
     SQL.Strings = (
       'select'
       '  p.numero_pedido,'
@@ -38,6 +40,8 @@ object PedidoVendas: TPedidoVendas
       Origin = 'numero_pedido'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       ServerAutoIncrement = False
+      AutoIncrementSeed = 1
+      AutoIncrementStep = 1
       IdentityInsert = True
     end
     object fdqPedidoDATA_EMISSAO_PEDIDO: TDateField

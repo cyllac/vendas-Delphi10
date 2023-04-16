@@ -19,7 +19,6 @@ implementation
 uses
   System.SysUtils;
 
-
 function TCaptionHelper.toInteger: Integer;
 begin
   Result := StrToInt(Self);

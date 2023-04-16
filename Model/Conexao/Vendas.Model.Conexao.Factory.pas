@@ -12,9 +12,9 @@ type
       constructor Create;
       destructor Destroy; override;
       class function New: iModelConexaoFactory;
+
       function ConexaoFiredac: iModelConexao;
   end;
-
 
 implementation
 

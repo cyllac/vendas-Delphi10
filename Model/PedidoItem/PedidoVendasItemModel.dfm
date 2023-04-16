@@ -1,17 +1,19 @@
 object PedidoVendasItem: TPedidoVendasItem
   OldCreateOrder = False
-  Height = 179
-  Width = 201
+  Height = 194
+  Width = 194
   object fdqPedidoItem: TFDQuery
     AfterPost = fdqPedidoItemAfterPost
     CachedUpdates = True
     IndexFieldNames = 'NUMERO_PEDIDO'
     MasterSource = PedidoVendas.dtsPedido
-    MasterFields = 'NUMERO_PEDIDO'
+    MasterFields = 'numero_pedido'
     Connection = ModelConexaoFiredac.FDConnection
     SchemaAdapter = ModelConexaoFiredac.FDSchemaAdapter
     FetchOptions.AssignedValues = [evDetailCascade]
     FetchOptions.DetailCascade = True
+    UpdateOptions.UpdateTableName = 'vendas.pedidos_itens'
+    UpdateOptions.KeyFields = 'CODIGO_PEDIDO_ITEM'
     SQL.Strings = (
       'select'
       '  pi.codigo_pedido_item,'
@@ -97,43 +99,9 @@ object PedidoVendasItem: TPedidoVendasItem
     Top = 16
   end
   object dtsItem: TDataSource
-    DataSet = CdsItemAtual
+    DataSet = fdMemItemAtual
     Left = 115
     Top = 68
-  end
-  object CdsItemAtual: TClientDataSet
-    Aggregates = <>
-    Params = <>
-    Left = 32
-    Top = 68
-    object CdsItemAtualCODIGO_PRODUTO: TIntegerField
-      DisplayLabel = 'Produto'
-      FieldName = 'CODIGO_PRODUTO'
-      OnChange = CdsItemAtualCODIGO_PRODUTOChange
-    end
-    object CdsItemAtualDESCRICAO_PRODUTO: TStringField
-      FieldName = 'DESCRICAO_PRODUTO'
-      Size = 100
-    end
-    object CdsItemAtualQUANTIDADE_PEDIDO_ITEM: TFloatField
-      DisplayLabel = 'Quantidade'
-      FieldName = 'QUANTIDADE_PEDIDO_ITEM'
-      OnChange = CdsItemAtualQUANTIDADE_PEDIDO_ITEMChange
-    end
-    object CdsItemAtualVALOR_UNITARIO_PEDIDO_ITEM: TFloatField
-      DefaultExpression = '0'
-      DisplayLabel = 'Valor Unit'#225'rio'
-      FieldName = 'VALOR_UNITARIO_PEDIDO_ITEM'
-      DisplayFormat = '0.00,'
-      EditFormat = '0.00,'
-    end
-    object CdsItemAtualVALOR_TOTAL_PEDIDO_ITEM: TFloatField
-      DefaultExpression = '0'
-      DisplayLabel = 'Valor Total'
-      FieldName = 'VALOR_TOTAL_PEDIDO_ITEM'
-      DisplayFormat = '0.00,'
-      EditFormat = '0.00,'
-    end
   end
   object fdqProduto: TFDQuery
     Connection = ModelConexaoFiredac.FDConnection
@@ -172,5 +140,50 @@ object PedidoVendasItem: TPedidoVendasItem
     DataSet = fdqProduto
     Left = 112
     Top = 120
+  end
+  object fdMemItemAtual: TFDMemTable
+    FieldDefs = <>
+    IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    FormatOptions.AssignedValues = [fvMaxBcdPrecision, fvMaxBcdScale]
+    FormatOptions.MaxBcdPrecision = 2147483647
+    FormatOptions.MaxBcdScale = 2147483647
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
+    Left = 32
+    Top = 68
+    object fdMemItemAtualCODIGO_PRODUTO: TIntegerField
+      DisplayLabel = 'Produto'
+      FieldName = 'CODIGO_PRODUTO'
+      OnChange = fdMemItemAtualCODIGO_PRODUTOChange
+    end
+    object fdMemItemAtualDESCRICAO_PRODUTO: TStringField
+      FieldName = 'DESCRICAO_PRODUTO'
+      Size = 100
+    end
+    object fdMemItemAtualQUANTIDADE_PEDIDO_ITEM: TFloatField
+      DisplayLabel = 'Quantidade'
+      FieldName = 'QUANTIDADE_PEDIDO_ITEM'
+      OnChange = fdMemItemAtualQUANTIDADE_PEDIDO_ITEMChange
+    end
+    object fdMemItemAtualVALOR_UNITARIO_PEDIDO_ITEM: TFloatField
+      DefaultExpression = '0'
+      DisplayLabel = 'Valor Unit'#225'rio'
+      FieldName = 'VALOR_UNITARIO_PEDIDO_ITEM'
+      DisplayFormat = '0.00,'
+      EditFormat = '0.00,'
+    end
+    object fdMemItemAtualVALOR_TOTAL_PEDIDO_ITEM: TFloatField
+      DefaultExpression = '0'
+      DisplayLabel = 'Valor Total'
+      FieldName = 'VALOR_TOTAL_PEDIDO_ITEM'
+      DisplayFormat = '0.00,'
+      EditFormat = '0.00,'
+    end
   end
 end

@@ -3,7 +3,7 @@ unit Vendas.Model.Conexao.Interfaces;
 interface
 
 uses
-  Data.DB, FireDAC.Stan.Intf;
+  Data.DB;
 
 type
   iModelConexaoParametros = interface;
@@ -42,7 +42,6 @@ type
     ['{503E7C26-73AD-446B-9943-6068AAC4270B}']
     function ConexaoFiredac: iModelConexao;
   end;
-
 
 implementation
 

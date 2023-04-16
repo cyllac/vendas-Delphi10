@@ -6,8 +6,7 @@ uses
   System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
   FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.MySQL, FireDAC.Phys.MySQLDef,
   FireDAC.VCLUI.Wait, Data.DB, FireDAC.Comp.Client, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
-  FireDAC.Comp.UI, FireDAC.Comp.DataSet, Datasnap.DBClient, Vendas.Model.Conexao.Firedac,
-  Vendas.Model.Conexao.Interfaces;
+  FireDAC.Comp.UI, FireDAC.Comp.DataSet, Datasnap.DBClient, Vendas.Model.Conexao.Firedac, Vendas.Model.Conexao.Interfaces;
 
 type
   TPedidoVendas = class(TDataModule)
@@ -27,15 +26,14 @@ type
     fdqPedidonumero_pedido: TFDAutoIncField;
     procedure fdqPedidoCODIGO_CLIENTEChange(Sender: TField);
     procedure fdqPedidoNUMERO_PEDIDOGetText(Sender: TField; var Text: string; DisplayText: Boolean);
-  private
-    FModelConexao: iModelConexao;
   public
+    constructor Create(AOwner: TComponent); override;
+
     procedure CarregarPedidoVendas(const NumeroPedido: String);
     procedure InserirPedido;
     procedure GravarPedido;
     procedure CancelarPedido;
-    constructor Create(AOwner: TComponent); override;
-    property ModelConexao: iModelConexao read FModelConexao write FModelConexao;
+    procedure ExcluirPedidoVendas(const NumeroPedido: String);
   end;
 
 var
@@ -44,8 +42,8 @@ var
 implementation
 
 uses
-  Vcl.Dialogs, Vendas.Helpers, System.Types, System.StrUtils, System.UITypes,
-  Vendas.Model.Conexao.Factory, PedidoVendasItemModel;
+  Vcl.Dialogs, Vendas.Helpers, System.Types, System.StrUtils, System.UITypes, Vendas.Model.Conexao.Factory, PedidoVendasItemModel,
+  Vendas.Controller.Conexao, Vendas.Functions;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -53,29 +51,16 @@ uses
 
 procedure TPedidoVendas.CancelarPedido;
 begin
-  FModelConexao.SchemaAdapter.CancelUpdates;
-  PedidoVendasItem.LimparItemAtual;
+  ModelConexao.SchemaAdapter.CancelUpdates;
   InserirPedido;
 end;
 
 procedure TPedidoVendas.CarregarPedidoVendas(const NumeroPedido: String);
-
-  procedure ValidarCampo;
-  var
-    I: Integer;
-  begin
-    for I := 1 to Length(NumeroPedido) do
-    begin
-      if not CharInSet(NumeroPedido[I], ['0'..'9']) then
-        raise Exception.Create('é necessário digitar apenas números');
-    end;
-  end;
-
 begin
   if (NumeroPedido.IsEmpty) then
     Exit;
 
-  ValidarCampo;
+  TVendasFunctions.ValidarCampo(NumeroPedido);
 
   fdqPedido.Close;
   fdqPedido.ParamByName('NUMERO_PEDIDO_PRM').Value := NumeroPedido;
@@ -89,10 +74,34 @@ end;
 constructor TPedidoVendas.Create(AOwner: TComponent);
 begin
   inherited;
-  FModelConexao :=
-    TModelConexaoFactory
-      .New
-        .ConexaoFiredac;
+
+end;
+
+procedure TPedidoVendas.ExcluirPedidoVendas(const NumeroPedido: String);
+begin
+  if (NumeroPedido.IsEmpty) then
+    Exit;
+
+  TVendasFunctions.ValidarCampo(NumeroPedido);
+
+  fdqPedido.Close;
+  fdqPedido.ParamByName('NUMERO_PEDIDO_PRM').Value := NumeroPedido;
+  fdqPedido.Open;
+  fdqPedido.Delete;
+
+  ModelConexao.StartTransaction;
+  try
+    if (ModelConexao.SchemaAdapter.ApplyUpdates(0) = 0) then
+      TFDConnection(ModelConexao.EndConexao).Commit
+    else
+      TFDConnection(ModelConexao.EndConexao).Rollback;
+  except
+    on e: Exception do
+    begin
+      TFDConnection(ModelConexao.EndConexao).Rollback;
+      raise Exception.Create(e.Message);
+    end;
+  end;
 end;
 
 procedure TPedidoVendas.fdqPedidoCODIGO_CLIENTEChange(Sender: TField);
@@ -126,17 +135,12 @@ procedure TPedidoVendas.GravarPedido;
 
   procedure ValidarCampos;
   begin
-    if (fdqPedidoCODIGO_CLIENTE.IsNull) then
-    begin
-      fdqPedidoCODIGO_CLIENTE.Clear;
-      fdqPedidoCODIGO_CLIENTE.FocusControl;
-      raise Exception.Create('É necessário informar o cliente.');
-    end;
+    TVendasFunctions.ValidarCampo(fdqPedidoCODIGO_CLIENTE);
 
     if (PedidoVendasItem.fdqPedidoItem.IsEmpty) then
     begin
-      PedidoVendasItem.CdsItemAtualCODIGO_PRODUTO.Clear;
-      PedidoVendasItem.CdsItemAtualCODIGO_PRODUTO.FocusControl;
+      PedidoVendasItem.fdMemItemAtualCODIGO_PRODUTO.Clear;
+      PedidoVendasItem.fdMemItemAtualCODIGO_PRODUTO.FocusControl;
 
       raise Exception.Create('É necessário informar pelo menos um item no pedido.');
     end;
@@ -145,38 +149,40 @@ procedure TPedidoVendas.GravarPedido;
 begin
   ValidarCampos;
 
-  FModelConexao.StartTransaction;
+  ModelConexao.StartTransaction;
   try
-    if (FModelConexao.SchemaAdapter.ApplyUpdates(0) = 0) then
-      TFDConnection(FModelConexao.EndConexao).Commit
+    if (ModelConexao.SchemaAdapter.ApplyUpdates(0) = 0) then
+      TFDConnection(ModelConexao.EndConexao).Commit
     else
-      TFDConnection(FModelConexao.EndConexao).Rollback;
+      TFDConnection(ModelConexao.EndConexao).Rollback;
   except
     on e: Exception do
     begin
-      TFDConnection(FModelConexao.EndConexao).Rollback;
+      TFDConnection(ModelConexao.EndConexao).Rollback;
       raise Exception.Create(e.Message);
     end;
   end;
 
-  PedidoVendasItem.LimparItemAtual;
   InserirPedido;
 end;
 
 procedure TPedidoVendas.InserirPedido;
 begin
-  FModelConexao
+  PedidoVendasItem.LimparItemAtual;
+
+  ModelConexao
     .SchemaAdapter
       .Close
       .Open;
 
   fdqPedido.Append;
   fdqPedidonumero_pedido.AsInteger :=
-    TFDConnection(FModelConexao.EndConexao).ExecSQLScalar('select max(p.numero_pedido) from pedidos p').toInteger + 1;
+    TFDConnection(ModelConexao.EndConexao).ExecSQLScalar('select max(p.numero_pedido) from pedidos p').toInteger + 1;
 
   fdqPedido.Post;
   fdqPedido.Edit;
   fdqPedidoDATA_EMISSAO_PEDIDO.AsDateTime := Now;
+  fdqPedidoCODIGO_CLIENTE.FocusControl;
 end;
 
 procedure TPedidoVendas.fdqPedidoNUMERO_PEDIDOGetText(Sender: TField; var Text: string; DisplayText: Boolean);

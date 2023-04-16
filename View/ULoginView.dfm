@@ -14,6 +14,7 @@ object LoginView: TLoginView
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -38,8 +39,8 @@ object LoginView: TLoginView
       object Label1: TLabel
         Left = 0
         Top = 0
-        Width = 195
-        Height = 64
+        Width = 519
+        Height = 81
         Align = alClient
         Alignment = taCenter
         Caption = 'VENDAS'
@@ -52,6 +53,8 @@ object LoginView: TLoginView
         ParentColor = False
         ParentFont = False
         Layout = tlCenter
+        ExplicitWidth = 195
+        ExplicitHeight = 64
       end
     end
     object Panel5: TPanel
