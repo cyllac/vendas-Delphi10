@@ -13,7 +13,7 @@ Abrir uma tela de Pedido de Vendas com implementação master-detail.
 ---
 ## Para iniciar o projeto 
 
-- git clone https://github.com/cyllac/vendas-Delphi10.git
+- `git clone https://github.com/cyllac/vendas-Delphi10.git`
 - abrir o projeto no Delphi e executá-lo
 - ao executar o sistema irá criar a base dados e as tabelas na database informada na tela de login
   - o MySQL deve estar instalado e é necessário a versão 8+
