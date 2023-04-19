@@ -62,12 +62,17 @@ type
     procedure actPesquisarExecute(Sender: TObject);
     procedure actExcluirExecute(Sender: TObject);
     procedure actControleBotoesUpdate(Sender: TObject);
+    procedure edtQuantidadeKeyPress(Sender: TObject; var Key: Char);
+    procedure grdItensKeyPress(Sender: TObject; var Key: Char);
+    procedure edtValorUnitarioKeyPress(Sender: TObject; var Key: Char);
   private
+    FFormatSettings: TFormatSettings;
     procedure SetKeyPressEnter(var Key: Char);
+    procedure ValidateFloat(var Key: Char; var Sender: TObject);
     procedure ReposicionarBotoes;
     function AtivarBotoesExcluirPesquisar: Boolean;
   public
-    { Public declarations }
+    constructor Create(AOwner: TComponent); override;
   end;
 
 var
@@ -84,6 +89,15 @@ procedure TPedidoVendasView.btnGravarClick(Sender: TObject);
 begin
   PedidoVendas.GravarPedido;
   ReposicionarBotoes;
+end;
+
+constructor TPedidoVendasView.Create(AOwner: TComponent);
+begin
+  inherited;
+  // Guarda o separador decimal do S.O. usado nos campos Float
+  {$WARNINGS OFF}
+  FFormatSettings := TFormatSettings.Create(GetThreadLocale());
+  {$WARNINGS ON}
 end;
 
 procedure TPedidoVendasView.actControleBotoesUpdate(Sender: TObject);
@@ -131,6 +145,18 @@ begin
   SetKeyPressEnter(Key);
 end;
 
+procedure TPedidoVendasView.edtQuantidadeKeyPress(Sender: TObject; var Key: Char);
+begin
+  SetKeyPressEnter(Key);
+  ValidateFloat(Key, Sender);
+end;
+
+procedure TPedidoVendasView.edtValorUnitarioKeyPress(Sender: TObject; var Key: Char);
+begin
+  SetKeyPressEnter(Key);
+  ValidateFloat(Key, Sender);
+end;
+
 procedure TPedidoVendasView.FormShow(Sender: TObject);
 begin
   PedidoVendas.InserirPedido;
@@ -141,23 +167,6 @@ end;
 
 procedure TPedidoVendasView.grdItensKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-  if (Key = VK_DOWN) then
-  begin
-    if (PedidoVendasItem.fdqPedidoItem.State = dsEdit) then
-      PedidoVendasItem.fdqPedidoItem.Post;
-
-    PedidoVendasItem.fdqPedidoItem.DisableControls;
-    try
-      PedidoVendasItem.fdqPedidoItem.Next;
-      if PedidoVendasItem.fdqPedidoItem.Eof then
-        Key := 0
-      else
-        PedidoVendasItem.fdqPedidoItem.Prior;
-    finally
-      PedidoVendasItem.fdqPedidoItem.EnableControls;
-    end;
-  end;
-
   if (Key = VK_DELETE) and (not grdItens.DataSource.DataSet.IsEmpty) then
   begin
     if MessageDlg('Deseja realmente excluir o item do pedido atual?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
@@ -166,6 +175,12 @@ begin
       Key := 0;
     end;
   end;
+end;
+
+procedure TPedidoVendasView.grdItensKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Key = #13) then
+    PedidoVendasItem.EditarPedidoItem;
 end;
 
 procedure TPedidoVendasView.ReposicionarBotoes;
@@ -180,12 +195,26 @@ begin
   end;
 end;
 
-procedure TPedidoVendasView.SetKeyPressEnter;
+procedure TPedidoVendasView.SetKeyPressEnter(var Key: Char);
 begin
   if (Key = #13) then
   begin
     Key := #0;
     Perform(WM_NEXTDLGCTL, 0, 0);
+  end;
+end;
+
+procedure TPedidoVendasView.ValidateFloat(var Key: Char; var Sender: TObject);
+var
+  DecimalSeparator: Char;
+begin
+  DecimalSeparator := FFormatSettings.DecimalSeparator;
+  if (not CharInSet(Key, [#8, '0'..'9', DecimalSeparator])) or
+     ((Key = DecimalSeparator) and (Pos(Key, (Sender as TDBEdit).Text) > 0)) or
+     (((Key = DecimalSeparator)) and ((Sender as TDBEdit).Text = ',')) or
+     ((Key = '-') and ((Sender as TDBEdit).SelStart <> 0)) then
+  begin
+    Key := #0;
   end;
 end;
 

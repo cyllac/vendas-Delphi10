@@ -4,6 +4,7 @@ object PedidoVendasItem: TPedidoVendasItem
   Width = 194
   object fdqPedidoItem: TFDQuery
     AfterPost = fdqPedidoItemAfterPost
+    AfterDelete = fdqPedidoItemAfterDelete
     CachedUpdates = True
     IndexFieldNames = 'NUMERO_PEDIDO'
     MasterSource = PedidoVendas.dtsPedido
@@ -174,6 +175,7 @@ object PedidoVendasItem: TPedidoVendasItem
       DefaultExpression = '0'
       DisplayLabel = 'Valor Unit'#225'rio'
       FieldName = 'VALOR_UNITARIO_PEDIDO_ITEM'
+      OnChange = fdMemItemAtualQUANTIDADE_PEDIDO_ITEMChange
       DisplayFormat = '0.00,'
       EditFormat = '0.00,'
     end
@@ -183,6 +185,9 @@ object PedidoVendasItem: TPedidoVendasItem
       FieldName = 'VALOR_TOTAL_PEDIDO_ITEM'
       DisplayFormat = '0.00,'
       EditFormat = '0.00,'
+    end
+    object fdMemItemAtualCODIGO_PEDIDO_ITEM: TIntegerField
+      FieldName = 'CODIGO_PEDIDO_ITEM'
     end
   end
 end

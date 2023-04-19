@@ -176,7 +176,8 @@ begin
     on e: Exception do
     begin
       TFDConnection(ModelConexao.EndConexao).Rollback;
-      raise Exception.Create(e.Message);
+
+      MessageDlg('O pedido atual será descartado.' + sLineBreak + 'Erro: ' + e.Message, mtError, [mbOK], 0);
     end;
   end;
 

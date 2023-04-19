@@ -29,16 +29,19 @@ type
     fdMemItemAtualQUANTIDADE_PEDIDO_ITEM: TFloatField;
     fdMemItemAtualVALOR_UNITARIO_PEDIDO_ITEM: TFloatField;
     fdMemItemAtualVALOR_TOTAL_PEDIDO_ITEM: TFloatField;
+    fdMemItemAtualCODIGO_PEDIDO_ITEM: TIntegerField;
     procedure fdqPedidoItemQUANTIDADE_PEDIDO_ITEMChange(Sender: TField);
     procedure fdqPedidoItemAfterPost(DataSet: TDataSet);
     procedure fdMemItemAtualCODIGO_PRODUTOChange(Sender: TField);
     procedure fdMemItemAtualQUANTIDADE_PEDIDO_ITEMChange(Sender: TField);
+    procedure fdqPedidoItemAfterDelete(DataSet: TDataSet);
   private
     procedure RecalcularTotalPedido;
     function CalcularValorTotalItem(const AQuantidade: Double; const AValorUnitario: Double): Double;
   public
     procedure AdicionarItemNaLista;
     procedure ApagarPedidoItem;
+    procedure EditarPedidoItem;
     procedure LimparItemAtual;
     constructor Create(AOwner: TComponent); override;
   end;
@@ -49,7 +52,7 @@ var
 implementation
 
 uses
-  PedidoVendasModel, Vcl.Dialogs, System.UITypes, Vendas.Functions;
+  PedidoVendasModel, Vcl.Dialogs, System.UITypes, Vendas.Functions, System.StrUtils;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -57,19 +60,20 @@ uses
 
 procedure TPedidoVendasItem.AdicionarItemNaLista;
 begin
-  if (fdqPedidoItem.State = dsEdit) then
-    fdqPedidoItem.Post
-  else
-  begin
-
   TVendasFunctions.ValidarCampo(fdMemItemAtualCODIGO_PRODUTO);
   TVendasFunctions.ValidarCampo(fdMemItemAtualQUANTIDADE_PEDIDO_ITEM);
   TVendasFunctions.ValidarCampo(fdMemItemAtualVALOR_UNITARIO_PEDIDO_ITEM);
 
-  fdqPedidoItem.Append;
   try
-    fdqPedidoItemCODIGO_PRODUTO.AsInteger := fdMemItemAtualCODIGO_PRODUTO.AsInteger;
-    fdqPedidoItemDESCRICAO_PRODUTO.AsString := fdMemItemAtualDESCRICAO_PRODUTO.AsString;
+    if fdMemItemAtualCODIGO_PEDIDO_ITEM.IsNull then
+    begin
+      fdqPedidoItem.Append;
+      fdqPedidoItemCODIGO_PRODUTO.AsInteger := fdMemItemAtualCODIGO_PRODUTO.AsInteger;
+      fdqPedidoItemDESCRICAO_PRODUTO.AsString := fdMemItemAtualDESCRICAO_PRODUTO.AsString;
+    end
+    else
+      fdqPedidoItem.Edit;
+
     fdqPedidoItemQUANTIDADE_PEDIDO_ITEM.AsFloat := fdMemItemAtualQUANTIDADE_PEDIDO_ITEM.AsFloat;
     fdqPedidoItemVALOR_UNITARIO_PEDIDO_ITEM.AsFloat := fdMemItemAtualVALOR_UNITARIO_PEDIDO_ITEM.AsFloat;
     fdqPedidoItemVALOR_TOTAL_PEDIDO_ITEM.AsFloat := fdMemItemAtualVALOR_TOTAL_PEDIDO_ITEM.AsFloat;
@@ -79,12 +83,19 @@ begin
   except
     on e: Exception do
     begin
-      raise Exception.Create('Não foi possível adicionar o item na lista.' + sLineBreak + 'Erro: ' + e.Message);
+      if fdqPedidoItem.State in [dsInsert, dsEdit] then
+        fdqPedidoItem.Cancel;
+
+      raise Exception.Create(
+        IfThen(
+          fdMemItemAtualCODIGO_PEDIDO_ITEM.IsNull,
+          'Não foi possível adicionar o item na lista.',
+          'Não foi possível editar o item da lista.'
+        ) + sLineBreak + 'Erro: ' + e.Message);
     end;
   end;
 
   LimparItemAtual;
-  end;
   fdMemItemAtualCODIGO_PRODUTO.FocusControl;
 end;
 
@@ -110,6 +121,23 @@ begin
   fdMemItemAtual.CreateDataSet;
   fdMemItemAtual.Open;
   fdMemItemAtual.Insert;
+end;
+
+procedure TPedidoVendasItem.EditarPedidoItem;
+begin
+  if (not fdqPedidoItemCODIGO_PRODUTO.IsNull) then
+  begin
+    fdMemItemAtualCODIGO_PEDIDO_ITEM.AsInteger := fdqPedidoItemCODIGO_PEDIDO_ITEM.AsInteger;
+    fdMemItemAtualCODIGO_PRODUTO.AsInteger := fdqPedidoItemCODIGO_PRODUTO.AsInteger;
+    fdMemItemAtualDESCRICAO_PRODUTO.AsString := fdqPedidoItemDESCRICAO_PRODUTO.AsString;
+    fdMemItemAtualQUANTIDADE_PEDIDO_ITEM.AsFloat := fdqPedidoItemQUANTIDADE_PEDIDO_ITEM.AsFloat;
+    fdMemItemAtualVALOR_UNITARIO_PEDIDO_ITEM.AsFloat := fdqPedidoItemVALOR_UNITARIO_PEDIDO_ITEM.AsFloat;
+    fdMemItemAtualVALOR_TOTAL_PEDIDO_ITEM.AsFloat := fdqPedidoItemVALOR_TOTAL_PEDIDO_ITEM.AsFloat;
+
+    fdMemItemAtualCODIGO_PRODUTO.ReadOnly := True;
+  end;
+
+  fdMemItemAtualQUANTIDADE_PEDIDO_ITEM.FocusControl;
 end;
 
 procedure TPedidoVendasItem.fdMemItemAtualCODIGO_PRODUTOChange(Sender: TField);
@@ -145,6 +173,11 @@ begin
       fdMemItemAtualVALOR_UNITARIO_PEDIDO_ITEM.AsFloat);
 end;
 
+procedure TPedidoVendasItem.fdqPedidoItemAfterDelete(DataSet: TDataSet);
+begin
+  RecalcularTotalPedido;
+end;
+
 procedure TPedidoVendasItem.fdqPedidoItemAfterPost(DataSet: TDataSet);
 begin
   RecalcularTotalPedido;
@@ -160,6 +193,8 @@ end;
 
 procedure TPedidoVendasItem.LimparItemAtual;
 begin
+  fdMemItemAtualCODIGO_PRODUTO.ReadOnly := False;
+  fdMemItemAtualCODIGO_PEDIDO_ITEM.Clear;
   fdMemItemAtualCODIGO_PRODUTO.Clear;
   fdMemItemAtualDESCRICAO_PRODUTO.Clear;
   fdMemItemAtualQUANTIDADE_PEDIDO_ITEM.Clear;

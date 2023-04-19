@@ -26,6 +26,7 @@ type
     function DriverID(const AValue: String): iModelConexaoParametros;
     function Server(const AValue: String): iModelConexaoParametros;
     function Porta(const AValue: Integer): iModelConexaoParametros;
+    function SalvarSenha(const AValue: Boolean): iModelConexaoParametros;
     function EndParametros: iModelConexao;
   end;
 

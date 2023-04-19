@@ -24,9 +24,10 @@ type
     FDriverID: String;
     FServer: String;
     FPorta: Integer;
+    FSalvarSenha: Boolean;
     procedure LerParametros;
-    function ExtractResourceSQL: String;
     procedure ExecutarSQL(const ASQL: String);
+    procedure ExtractDLLsMySQL;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -44,6 +45,7 @@ type
     function DriverID(const AValue: String): iModelConexaoParametros;
     function Server(const AValue: String): iModelConexaoParametros;
     function Porta(const AValue: Integer): iModelConexaoParametros;
+    function SalvarSenha(const AValue: Boolean): iModelConexaoParametros;
     function EndParametros: iModelConexao;
 
     function Close: iModelConexaoSchemaAdapter;
@@ -59,7 +61,8 @@ var
 implementation
 
 uses
-  System.Types, System.StrUtils, Vcl.Dialogs;
+  System.Types, System.StrUtils, Vcl.Dialogs, Vendas.Functions,
+  System.IniFiles;
 
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
@@ -81,6 +84,15 @@ begin
   FDSchemaAdapter.Close;
 end;
 
+procedure TModelConexaoFiredac.ExtractDLLsMySQL;
+var
+  Path: String;
+begin
+  Path := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
+  TVendasFunctions.ExtractResource('Resource_MySQL', Path + 'libmysql.dll');
+  TVendasFunctions.ExtractResource('Resource_MySQLd', Path + 'libmysqld.dll');
+end;
+
 function TModelConexaoFiredac.Conectar: iModelConexao;
 
   function GetDDLCreateDataBase: TStringDynArray;
@@ -92,7 +104,11 @@ function TModelConexaoFiredac.Conectar: iModelConexao;
 
     ListaDDL := TStringList.Create;
     try
-      ListaDDL.LoadFromFile(ExtractResourceSQL);
+      ListaDDL.LoadFromFile(
+        TVendasFunctions.ExtractResource(
+          'Resource_DB_Create',
+          IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'SQL_Criacao_DB.sql'));
+
       Result := SplitString(ListaDDL.Text, ';');
     finally
       FreeAndNil(ListaDDL);
@@ -107,6 +123,7 @@ begin
   Result := Self;
   LerParametros;
   try
+    ExtractDLLsMySQL;
     ExecutarSQL('CREATE DATABASE IF NOT EXISTS ' + FDatabase);
 
     FDConnection.Params.Database := FDatabase;
@@ -158,8 +175,23 @@ begin
 end;
 
 function TModelConexaoFiredac.EndParametros: iModelConexao;
+var
+  ArquivoINI: TIniFile;
 begin
   Result := Self;
+
+  ArquivoINI := TIniFile.Create(TVendasFunctions.PegarNomeArquivoINI);
+  try
+    ArquivoINI.WriteString(SECTION_INI, 'Servidor', FServer);
+    ArquivoINI.WriteString(SECTION_INI, 'Porta', FPorta.ToString);
+    ArquivoINI.WriteString(SECTION_INI, 'Database', FDatabase);
+    ArquivoINI.WriteString(SECTION_INI, 'Usuario', FUserName);
+
+    if FSalvarSenha then
+      ArquivoINI.WriteString(SECTION_INI, 'Senha', TVendasFunctions.CriptografarSenha(FPassword));
+  finally
+    FreeAndNil(ArquivoINI);
+  end;
 end;
 
 function TModelConexaoFiredac.EndSchemaAdapter: iModelConexao;
@@ -178,20 +210,6 @@ begin
     Query.ExecSQL;
   finally
     FreeAndNil(Query);
-  end;
-end;
-
-function TModelConexaoFiredac.ExtractResourceSQL: String;
-var
-  Arquivo: TResourceStream;
-begin
-  Result := EmptyStr;
-  Arquivo := TResourceStream.Create(HInstance, 'Resource_DB_Create', RT_RCDATA);
-  try
-    Result := IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'SQL_Criacao_DB.sql';
-    Arquivo.SaveToFile(Result);
-  finally
-    FreeAndNil(Arquivo);
   end;
 end;
 
@@ -241,6 +259,12 @@ function TModelConexaoFiredac.Porta(const AValue: Integer): iModelConexaoParamet
 begin
   Result := Self;
   FPorta := AValue;
+end;
+
+function TModelConexaoFiredac.SalvarSenha(const AValue: Boolean): iModelConexaoParametros;
+begin
+  Result := Self;
+  FSalvarSenha := AValue;
 end;
 
 function TModelConexaoFiredac.SchemaAdapter: iModelConexaoSchemaAdapter;

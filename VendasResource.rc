@@ -1,1 +1,3 @@
-Resource_DB_Create RCDATA "SQL_CRIACAO_DATABASE.sql"
+Resource_DB_Create RCDATA "Resources\\SQL_CRIACAO_DATABASE.sql"
+Resource_MySQL RCDATA "Resources\\libmysql.dll"
+Resource_MySQLd RCDATA "Resources\\libmysqld.dll"

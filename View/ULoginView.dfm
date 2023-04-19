@@ -97,7 +97,7 @@ object LoginView: TLoginView
           FocusControl = edtUsuario
         end
         object lblSenha: TLabel
-          Left = 216
+          Left = 171
           Top = 77
           Width = 34
           Height = 13
@@ -132,16 +132,16 @@ object LoginView: TLoginView
         object edtUsuario: TEdit
           Left = 32
           Top = 96
-          Width = 169
+          Width = 133
           Height = 21
           TabOrder = 2
           Text = 'root'
           OnKeyPress = edtServidorKeyPress
         end
         object edtSenha: TEdit
-          Left = 216
+          Left = 171
           Top = 96
-          Width = 169
+          Width = 110
           Height = 21
           PasswordChar = '*'
           TabOrder = 3
@@ -153,7 +153,7 @@ object LoginView: TLoginView
           Top = 144
           Width = 353
           Height = 21
-          TabOrder = 4
+          TabOrder = 5
           Text = 'vendas'
           OnKeyPress = edtServidorKeyPress
         end
@@ -169,7 +169,7 @@ object LoginView: TLoginView
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
-          TabOrder = 5
+          TabOrder = 6
           OnClick = btnConectarClick
         end
         object edtPorta: TEdit
@@ -179,6 +179,17 @@ object LoginView: TLoginView
           Height = 21
           TabOrder = 1
           Text = '3306'
+          OnKeyPress = edtServidorKeyPress
+        end
+        object ckbSalvarSenha: TCheckBox
+          Left = 296
+          Top = 98
+          Width = 89
+          Height = 17
+          Caption = 'Salvar Senha'
+          Checked = True
+          State = cbChecked
+          TabOrder = 4
           OnKeyPress = edtServidorKeyPress
         end
       end

@@ -39,7 +39,6 @@ object PedidoVendasView: TPedidoVendasView
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitTop = -1
         object btnPesquisar: TButton
           AlignWithMargins = True
           Left = 8
@@ -57,7 +56,6 @@ object PedidoVendasView: TPedidoVendasView
           ImageMargins.Top = 10
           Images = ImageList
           TabOrder = 0
-          ExplicitTop = 11
         end
         object btnGravar: TButton
           AlignWithMargins = True
@@ -77,7 +75,6 @@ object PedidoVendasView: TPedidoVendasView
           Images = ImageList
           TabOrder = 1
           OnClick = btnGravarClick
-          ExplicitTop = 10
         end
         object btnCancelar: TButton
           AlignWithMargins = True
@@ -97,7 +94,6 @@ object PedidoVendasView: TPedidoVendasView
           Images = ImageList
           TabOrder = 3
           OnClick = btnCancelarClick
-          ExplicitTop = 10
         end
         object btnFechar: TButton
           AlignWithMargins = True
@@ -117,7 +113,6 @@ object PedidoVendasView: TPedidoVendasView
           Images = ImageList
           TabOrder = 4
           OnClick = btnFecharClick
-          ExplicitLeft = 221
         end
         object btnExcluir: TButton
           AlignWithMargins = True
@@ -136,8 +131,6 @@ object PedidoVendasView: TPedidoVendasView
           ImageMargins.Top = 10
           Images = ImageList
           TabOrder = 2
-          ExplicitLeft = 141
-          ExplicitTop = 5
         end
       end
       object Panel8: TPanel
@@ -204,6 +197,7 @@ object PedidoVendasView: TPedidoVendasView
           Color = clMoneyGreen
           DataField = 'CODIGO_CLIENTE'
           DataSource = PedidoVendas.dtsPedido
+          MaxLength = 9
           TabOrder = 2
           OnKeyPress = edtCodigoClienteKeyPress
         end
@@ -326,6 +320,7 @@ object PedidoVendasView: TPedidoVendasView
           Color = clMoneyGreen
           DataField = 'CODIGO_PRODUTO'
           DataSource = PedidoVendasItem.dtsItem
+          MaxLength = 9
           TabOrder = 0
           OnKeyPress = edtCodigoClienteKeyPress
         end
@@ -349,8 +344,9 @@ object PedidoVendasView: TPedidoVendasView
           Color = clMoneyGreen
           DataField = 'QUANTIDADE_PEDIDO_ITEM'
           DataSource = PedidoVendasItem.dtsItem
+          MaxLength = 10
           TabOrder = 2
-          OnKeyPress = edtCodigoClienteKeyPress
+          OnKeyPress = edtQuantidadeKeyPress
         end
         object edtValorUnitario: TDBEdit
           Left = 514
@@ -360,8 +356,9 @@ object PedidoVendasView: TPedidoVendasView
           Color = clMoneyGreen
           DataField = 'VALOR_UNITARIO_PEDIDO_ITEM'
           DataSource = PedidoVendasItem.dtsItem
+          MaxLength = 10
           TabOrder = 3
-          OnKeyPress = edtCodigoClienteKeyPress
+          OnKeyPress = edtValorUnitarioKeyPress
         end
         object edtValorTotal: TDBEdit
           Left = 609
@@ -392,6 +389,7 @@ object PedidoVendasView: TPedidoVendasView
           Height = 252
           Align = alClient
           DataSource = PedidoVendasItem.dtsPedidoItem
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
           TabOrder = 0
           TitleFont.Charset = DEFAULT_CHARSET
           TitleFont.Color = clWindowText
@@ -399,6 +397,7 @@ object PedidoVendasView: TPedidoVendasView
           TitleFont.Name = 'Tahoma'
           TitleFont.Style = []
           OnKeyDown = grdItensKeyDown
+          OnKeyPress = grdItensKeyPress
           Columns = <
             item
               Expanded = False
@@ -491,7 +490,7 @@ object PedidoVendasView: TPedidoVendasView
     Left = 376
     Top = 8
     Bitmap = {
-      494C010106000800800018001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106000800880018001800FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000003000000001002000000000000048
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000E4E8FF1B95A8FF6A4A6CFFB52851FFD70C3A

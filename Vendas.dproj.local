@@ -7,8 +7,8 @@
     <Transaction>2023/04/14 12:16:30.000.544,C:\Users\Priscila\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\PROJECTS\WK\UFrmLogin.pas</Transaction>
     <Transaction>2023/04/14 12:16:35.000.494,C:\Users\Priscila\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\PROJECTS\WK\Vendas.dproj</Transaction>
     <Transaction>2023/04/14 12:17:08.000.154,=C:\PROJECTS\WK\Unit2.pas</Transaction>
-    <Transaction>2023/04/14 12:17:27.000.201,C:\PROJECTS\WK\Unit2.dfm=C:\PROJECTS\WK\PedidoVendas.dfm</Transaction>
     <Transaction>2023/04/14 12:17:27.000.201,C:\PROJECTS\WK\Unit2.pas=C:\PROJECTS\WK\PedidoVendas.pas</Transaction>
+    <Transaction>2023/04/14 12:17:27.000.201,C:\PROJECTS\WK\Unit2.dfm=C:\PROJECTS\WK\PedidoVendas.dfm</Transaction>
     <Transaction>2023/04/14 12:18:07.000.953,C:\PROJECTS\WK\PedidoVendas.dfm=C:\PROJECTS\WK\UFrmPedidoVendas.dfm</Transaction>
     <Transaction>2023/04/14 12:18:07.000.953,C:\PROJECTS\WK\PedidoVendas.pas=C:\PROJECTS\WK\UFrmPedidoVendas.pas</Transaction>
     <Transaction>2023/04/14 12:22:26.000.825,C:\PROJECTS\WK\UFrmLogin.pas=C:\PROJECTS\WK\ULoginView.pas</Transaction>
@@ -16,8 +16,8 @@
     <Transaction>2023/04/14 12:22:36.000.497,C:\PROJECTS\WK\UFrmPedidoVendas.pas=C:\PROJECTS\WK\UPedidoVendasView.pas</Transaction>
     <Transaction>2023/04/14 12:22:36.000.497,C:\PROJECTS\WK\UFrmPedidoVendas.dfm=C:\PROJECTS\WK\UPedidoVendasView.dfm</Transaction>
     <Transaction>2023/04/14 12:23:04.000.058,=C:\PROJECTS\WK\Unit1.pas</Transaction>
-    <Transaction>2023/04/14 12:24:09.000.884,C:\PROJECTS\WK\Unit1.pas=C:\PROJECTS\WK\PedidoVendasModel.pas</Transaction>
     <Transaction>2023/04/14 12:24:09.000.884,C:\PROJECTS\WK\Unit1.dfm=C:\PROJECTS\WK\PedidoVendasModel.dfm</Transaction>
+    <Transaction>2023/04/14 12:24:09.000.884,C:\PROJECTS\WK\Unit1.pas=C:\PROJECTS\WK\PedidoVendasModel.pas</Transaction>
     <Transaction>2023/04/14 12:44:36.000.157,=C:\PROJECTS\WK\Unit1.pas</Transaction>
     <Transaction>2023/04/15 11:47:22.000.549,=C:\PROJECTS\WK\Unit1.pas</Transaction>
     <Transaction>2023/04/15 11:54:27.000.899,C:\PROJECTS\WK\Vendas.Helpers.pas=C:\PROJECTS\WK\Unit1.pas</Transaction>
@@ -30,8 +30,8 @@
     <Transaction>2023/04/15 16:31:00.000.815,C:\PROJECTS\WK\Unit1.pas=C:\PROJECTS\WK\Model\Vendas.Model.Conexao.Firedac.pas</Transaction>
     <Transaction>2023/04/15 16:31:31.000.678,C:\PROJECTS\WK\ULoginView.dfm=C:\PROJECTS\WK\View\ULoginView.dfm</Transaction>
     <Transaction>2023/04/15 16:31:31.000.678,C:\PROJECTS\WK\ULoginView.pas=C:\PROJECTS\WK\View\ULoginView.pas</Transaction>
-    <Transaction>2023/04/15 16:31:43.000.322,C:\PROJECTS\WK\UPedidoVendasView.pas=C:\PROJECTS\WK\View\UPedidoVendasView.pas</Transaction>
     <Transaction>2023/04/15 16:31:43.000.322,C:\PROJECTS\WK\UPedidoVendasView.dfm=C:\PROJECTS\WK\View\UPedidoVendasView.dfm</Transaction>
+    <Transaction>2023/04/15 16:31:43.000.322,C:\PROJECTS\WK\UPedidoVendasView.pas=C:\PROJECTS\WK\View\UPedidoVendasView.pas</Transaction>
     <Transaction>2023/04/15 16:32:06.000.219,C:\PROJECTS\WK\PedidoVendasModel.pas=C:\PROJECTS\WK\Model\Pedido\PedidoVendasModel.pas</Transaction>
     <Transaction>2023/04/15 16:32:06.000.219,C:\PROJECTS\WK\PedidoVendasModel.dfm=C:\PROJECTS\WK\Model\Pedido\PedidoVendasModel.dfm</Transaction>
     <Transaction>2023/04/15 16:32:16.000.376,C:\PROJECTS\WK\Model\Vendas.Model.Conexao.Interfaces.pas=C:\PROJECTS\WK\Model\Conexao\Vendas.Model.Conexao.Interfaces.pas</Transaction>
@@ -55,6 +55,9 @@
     <Transaction>2023/04/16 08:30:08.346,C:\PROJECTS\WK\Controller\Vendas.Controller.Conexao.pas=C:\PROJECTS\WK\Unit1.pas</Transaction>
     <Transaction>2023/04/16 12:35:48.348,=C:\PROJECTS\WK\Unit1.pas</Transaction>
     <Transaction>2023/04/16 12:36:35.134,C:\PROJECTS\WK\Vendas.Functions.pas=C:\PROJECTS\WK\Unit1.pas</Transaction>
+    <Transaction>2023/04/17 19:05:14.342,=C:\PROJECTS\WK\Resources\SQL_CRIACAO_DATABASE.sql</Transaction>
+    <Transaction>2023/04/17 19:05:41.646,=C:\PROJECTS\WK\Resources\libmysql.dll</Transaction>
+    <Transaction>2023/04/17 19:06:02.714,=C:\PROJECTS\WK\Resources\libmysqld.dll</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="Model"/>
@@ -81,5 +84,9 @@
     <File Path="Controller\Vendas.Controller.Conexao.Factory.pas"/>
     <File Path="Controller\Vendas.Controller.Conexao.pas"/>
     <File Path="Vendas.Functions.pas"/>
+    <File Path="Resources"/>
+    <File Path="Resources\SQL_CRIACAO_DATABASE.sql"/>
+    <File Path="Resources\libmysql.dll"/>
+    <File Path="Resources\libmysqld.dll"/>
   </ProjectSortOrder>
 </BorlandProject>
